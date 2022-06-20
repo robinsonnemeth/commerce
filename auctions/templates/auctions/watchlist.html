@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if listings is None %}
+        <H2 class="pt-3">None Watchlist Added</H2>
+    {% else %}
+        <div class="row">
+            <div>
+                <H3 class="pt-3 pl-5">Watchlist</H3>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                {% for listing in listings %}
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 p-2">
+                      <div class="card">
+                        <div class="m-2">
+                            <div class="image_box">
+                                <img class="images_listing" src="{{ listing.image_listing }}">
+                            </div>
+                            <div class="card-title">
+                                <h5>{{ listing.title_listing }}</h5>
+                            </div>
+                            <div>
+                                Inicial Price: {{ listing.price }}
+                                <h5 class="card-title">Atual Bid: {{ listing.last_bid }}</h5>
+                            </div>
+                            <div class="descript">
+                                <p >{{ listing.description|slice:"0:90" }}...</p>
+                            </div>
+                            <a href="{% url 'detail_listing' id_listing=listing.id %}" class="btn btn-primary">View</a>
+                            <a href="{% url 'removewatchlist' id_listing=listing.id %}" class="btn btn-primary">Remove of Watchlist</a>
+                        </div>
+                      </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-2 p-4">
+            Active Listings
+        </div>
+        <div class="col-lg-2 p-4">
+            <form action="{% url 'categorization' %}" method="post">
+                {% csrf_token %}
+                <select ONCHANGE=submit() name="cat_select">
+                    <option>All</option>
+                    {% for category in categories %}
+                        {% if cat_selected == category.id|slugify %}
+                            <option value="{{ category.id }}" SELECTED>{{ category }}</option>
+                        {% else %}
+                            <option value="{{ category.id }}">{{ category }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for listing in listings %}
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 p-2">
+                  <div class="card">
+                    <div class="m-2">
+                        <div class="image_box">
+                            <img class="images_listing" src="{{ listing.image_listing }}">
+                        </div>
+                        <div class="card-title">
+                            <h5>{{ listing.title_listing }}</h5>
+                        </div>
+                        <div>
+                            Inicial Price: {{ listing.price }}
+                            <h5 class="card-title">Atual Bid: {{ listing.last_bid }}</h5>
+                        </div>
+                        <div class="descript">
+                            <p >{{ listing.description|slice:"0:90" }}...</p>
+                        </div>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'detail_listing' id_listing=listing.id %}" class="btn btn-primary">View</a>
+                            <a href="{% url 'addwatchlist' id_listing=listing.id %}" class="btn btn-primary">Add to Watchlist</a>
+                        {% endif %}
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

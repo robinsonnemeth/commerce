@@ -1,0 +1,14 @@
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <h3 class="pt-3">Create Listing</h3>
+    <div class="w-50 pt-3 border border-secundary">
+        <form action="{% url 'newAuction' %}" method="post" class="m-2">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" name="btn" class="btn btn-primary" value="Create">
+        </form>
+    </div>
+
+{% endblock %}
